@@ -1,0 +1,14 @@
+package com.tech.Employee.dao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.tech.Employee.repo.EmployeeRepository;
+
+@Repository
+public class EmployeeDao {
+	
+	@Autowired
+	EmployeeRepository repository;
+
+}

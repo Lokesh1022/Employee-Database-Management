@@ -1,0 +1,5 @@
+package com.tech.Employee.dto;
+
+public class Employee {
+
+}

@@ -1,0 +1,5 @@
+package com.tech.Employee.dao;
+
+public class EmployeeDao {
+
+}

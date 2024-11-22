@@ -1,0 +1,61 @@
+package com.tech.Employee.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tech.Employee.dto.Employee;
+import com.tech.Employee.service.EmployeeService;
+import com.tech.Employee.util.ResponseStructure;
+
+@RestController
+public class Controller {
+	
+	@Autowired
+	EmployeeService service;
+	
+	@PostMapping("/save")
+	public ResponseEntity<ResponseStructure<Employee>> saveEmployee(@RequestBody Employee employee) {
+		return service.saveEmployee(employee);
+	}
+	
+	@GetMapping("/get")
+	public ResponseEntity<ResponseStructure<Employee>> fetchById(@RequestParam int id) {
+		return service.fetchById(id);
+	}
+	
+	@GetMapping("/getall")
+	public ResponseEntity<ResponseStructure<List<Employee>>> fetchAll(){
+		return service.fetchAll();
+	}
+	
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<ResponseStructure<String>> deleteById(@PathVariable int id) {
+		return service.deleteById(id);
+	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<ResponseStructure<Employee>> updateEmployee(@PathVariable int id,@RequestBody Employee updemp) {
+		return service.updateEmployee(id, updemp);
+	}
+	
+	@PutMapping("/updatephone/{id}/{phone}")
+	public ResponseEntity<ResponseStructure<Employee>> updatePhone(@PathVariable int id,@PathVariable long phone) {
+		return service.updatePhone(id, phone);
+	}
+	
+	@GetMapping("/getname")
+	public Employee fetchByName(@RequestParam String name) {
+		return service.fetchByName(name);
+	}
+
+}

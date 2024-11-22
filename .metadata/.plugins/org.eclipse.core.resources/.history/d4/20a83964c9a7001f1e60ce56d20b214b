@@ -1,0 +1,127 @@
+package com.tech.Employee.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.tech.Employee.dao.EmployeeDao;
+import com.tech.Employee.dto.Employee;
+import com.tech.Employee.util.ResponseStructure;
+
+@Service
+public class EmployeeService {
+	
+	@Autowired
+	EmployeeDao dao;
+	
+	public ResponseEntity<ResponseStructure<Employee>> saveEmployee(Employee employee) {
+		ResponseStructure<Employee> rs = new ResponseStructure<Employee>();
+		rs.setStatus(HttpStatus.CREATED.value());
+		rs.setMessage("data inserted successfully");
+		rs.setData(dao.saveEmployee(employee));
+		
+		ResponseEntity<ResponseStructure<Employee>> entity = new ResponseEntity<ResponseStructure<Employee>>(rs,HttpStatus.CREATED);
+		return entity;
+	}
+	
+	public ResponseEntity<ResponseStructure<Employee>> fetchById(int id) {
+		ResponseStructure<Employee> rs = new ResponseStructure<Employee>();
+		rs.setStatus(HttpStatus.OK.value());
+		rs.setMessage("data fetched successfully");
+		rs.setData(dao.fetchById(id));
+		
+		ResponseEntity<ResponseStructure<Employee>> entity = new ResponseEntity<ResponseStructure<Employee>>(rs,HttpStatus.OK);
+		return entity;
+	}
+	
+	public ResponseEntity<ResponseStructure<List<Employee>>> fetchAll(){
+		ResponseStructure<List<Employee>> rs = new ResponseStructure<List<Employee>>();
+		rs.setStatus(HttpStatus.OK.value());
+		rs.setMessage("all data fetch successfully");
+		rs.setData(dao.fetchAll());
+		
+		ResponseEntity<ResponseStructure<List<Employee>>> entity = new ResponseEntity<ResponseStructure<List<Employee>>>(rs,HttpStatus.OK);
+		return entity;
+	}
+	
+	public ResponseEntity<ResponseStructure<String>> deleteById(int id) {
+		Employee e = dao.fetchById(id);
+		
+		if(e != null ) {
+			ResponseStructure<String> rs = new ResponseStructure<String>();
+			rs.setStatus(HttpStatus.OK.value());
+			rs.setMessage("data delete successfully");
+			rs.setData(dao.deleteById(id));
+			ResponseEntity<ResponseStructure<String>> entity = new ResponseEntity<ResponseStructure<String>>(rs,HttpStatus.OK);
+			return entity;
+		}
+		else {
+			ResponseStructure<String> rs = new ResponseStructure<String>();
+			rs.setStatus(HttpStatus.BAD_REQUEST.value());
+			rs.setMessage("unable to delete id "+id+" not present");
+			rs.setData("not delete");
+			ResponseEntity<ResponseStructure<String>> entity = new ResponseEntity<ResponseStructure<String>>(rs,HttpStatus.BAD_REQUEST);
+			return entity;
+		}
+	}
+	
+	public ResponseEntity<ResponseStructure<Employee>> updateEmployee(int id,Employee updemp) {
+		Employee oldemp = dao.fetchById(id);
+		
+		if(oldemp != null) {
+			updemp.setId(id);
+			ResponseStructure<Employee> rs = new ResponseStructure<Employee>();
+			rs.setStatus(HttpStatus.OK.value());
+			rs.setMessage("data updated successfully");
+			rs.setData(dao.updateEmployee(updemp));
+			
+			ResponseEntity<ResponseStructure<Employee>> entity = new ResponseEntity<ResponseStructure<Employee>>(rs,HttpStatus.OK);
+			return entity;
+		}
+		else {
+			ResponseStructure<Employee> rs = new ResponseStructure<Employee>();
+			rs.setStatus(HttpStatus.BAD_REQUEST.value());
+			rs.setMessage("unable to update id "+id+" not present");
+			rs.setData(null);
+		    ResponseEntity<ResponseStructure<Employee>> entity = new ResponseEntity<ResponseStructure<Employee>>(rs,HttpStatus.BAD_REQUEST);
+		    return entity;
+		}
+	}
+	
+	public ResponseEntity<ResponseStructure<Employee>> updatePhone(int id,long phone) {
+		Employee employee = dao.fetchById(id);
+		
+		if(employee != null) {
+			employee.setPhone(phone);
+			ResponseStructure<Employee> rs = new ResponseStructure<Employee>();
+			rs.setStatus(HttpStatus.OK.value());
+			rs.setMessage("data updated successfully");
+			rs.setData(dao.updateEmployee(employee));
+			
+			 ResponseEntity<ResponseStructure<Employee>> entity = new ResponseEntity<ResponseStructure<Employee>>(rs,HttpStatus.OK);
+			return entity ;
+		}
+		else {
+			ResponseStructure<Employee> rs = new ResponseStructure<Employee>();
+			rs.setStatus(HttpStatus.BAD_REQUEST.value());
+			rs.setMessage("unable to update id "+id+" not present");
+			rs.setData(null);
+		    ResponseEntity<ResponseStructure<Employee>> entity = new ResponseEntity<ResponseStructure<Employee>>(rs,HttpStatus.BAD_REQUEST);
+		    return entity;
+		}
+	}
+	
+	public ResponseEntity<ResponseStructure<Employee>> fetchByName(String name) {
+		ResponseStructure<Employee> rs = new ResponseStructure<Employee>();
+		rs.setStatus(HttpStatus.OK.value());
+		rs.setMessage("data fetched successfully");
+		rs.setData(dao.fetchByName(name));
+		ResponseEntity<ResponseStructure<Employee>> entity = new ResponseEntity<ResponseStructure<Employee>>(rs,HttpStatus.OK);
+	    return entity;
+		
+	}
+
+}

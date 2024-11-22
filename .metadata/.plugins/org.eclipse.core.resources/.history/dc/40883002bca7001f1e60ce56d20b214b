@@ -1,0 +1,22 @@
+package com.tech.Employee.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tech.Employee.dto.Employee;
+import com.tech.Employee.service.EmployeeService;
+
+@RestController
+public class Controller {
+	
+	@Autowired
+	EmployeeService service;
+	
+	@PostMapping("/save")
+	public Employee saveEmployee(@RequestBody Employee employee) {
+		return service.saveEmployee(employee);
+	}
+
+}

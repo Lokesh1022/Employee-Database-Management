@@ -1,0 +1,48 @@
+package com.tech.Employee.dao;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.tech.Employee.dto.Employee;
+import com.tech.Employee.repo.EmployeeRepository;
+
+@Repository
+public class EmployeeDao {
+	
+	@Autowired
+	EmployeeRepository repository;
+	
+	public Employee saveEmployee(Employee employee) {
+		return repository.save(employee);
+	}
+	
+	public Employee fetchById(int id) {
+		Optional<Employee> o = repository.findById(id);
+		
+		if(o.isPresent()) {
+			return o.get();
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public List<Employee> fetchAll(){
+		return repository.findAll();
+	}
+	
+	public String deleteById(int id) {
+		repository.deleteById(id);
+		
+		return "delete success";
+		
+	}
+	
+	public Employee updateEmployee(Employee employee) {
+		return repository.save(employee);
+	}
+
+}
